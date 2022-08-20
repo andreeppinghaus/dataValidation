@@ -1,0 +1,5 @@
+#ignorando vendor
+vendor/
+.settings/
+.buildpath
+.project

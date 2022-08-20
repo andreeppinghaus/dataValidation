@@ -1,0 +1,23 @@
+{
+	"name" : "andre/data-validation",
+	"description" : "Data validation for import",
+	"type" : "library",
+	"require" : {
+		"phpunit/phpunit" : "^9.5"
+	},
+	"license" : "GNU General Public License version 3",
+	"autoload" : {
+		"psr-4" : {
+			"Andre\\DataValidation\\" : "src/"
+		}
+	},
+	"authors" : [{
+			"name" : "Andre Eppinghaus",
+			"email" : "andreeppinghaus@gmail.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"scripts" : {
+		"test" : "./vendor/bin/phpunit"
+	}
+}
