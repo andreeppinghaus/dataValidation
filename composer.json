@@ -1,5 +1,5 @@
 {
-	"name" : "andre/data-validation",
+	"name" : "andreeppinghaus/data-validation",
 	"description" : "Data validation for import",
 	"type" : "library",
 	"require" : {
