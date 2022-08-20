@@ -5,7 +5,7 @@
 	"require" : {
 		"phpunit/phpunit" : "^9.5"
 	},
-	"license" : "GNU General Public License version 3",
+	"license" : "AGPL-3.0-or-later",
 	"autoload" : {
 		"psr-4" : {
 			"Andre\\DataValidation\\" : "src/"
