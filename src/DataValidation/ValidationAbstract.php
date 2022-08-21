@@ -10,9 +10,9 @@ namespace DataValidation;
 class ValidationAbstract implements ValidationInterface
 {
 
-    public function __construct() {
-        $this->setIsOk(true);
-    }
+//     public function __construct() {
+//         $this->setIsOk(true);
+//     }
     /**
      * Required Columns 
      * @var array
@@ -73,7 +73,7 @@ class ValidationAbstract implements ValidationInterface
      */
     public function setLog($log)
     {
-        $this->log += "\n".$log;
+        $this->log .= "\n".$log;
     }
     
     /**
@@ -176,10 +176,22 @@ class ValidationAbstract implements ValidationInterface
     /**
      * Verify name of columns that must exist
      */
-    private function verifyHead() {
+    public function verifyHead() {
+        
+        if (! is_array($this->head)) {
+            throw new \Exception('head is not array', 1002);
+            return;
+        }
+        
+        if (count($this->head)<= 0 ){
+            throw new \Exception('head is empty', 1003);
+            return;
+        }
+        
         $headsNotFound =[];
         foreach($this->getHead() as $key) {
-            if (! array_key_exists($key, $this->data[0])) {
+            
+            if ( ! array_key_exists($key, $this->data[0]) ) {
                 $headsNotFound[] = $key;
             }
         }
@@ -187,54 +199,50 @@ class ValidationAbstract implements ValidationInterface
         if (count($headsNotFound) > 0 ) {
             $this->setIsOk(false);
             $this->setHeadNotFound($headsNotFound);
-            $this->setLog("Heads not found: \n".implode('\n', $headsNotFound));
+            $errors = implode(', ', $headsNotFound);
+            $this->setLog("Columns not found: \n $errors");
         }
     }
     
-    private function verifyColumnsRequired() {
-        $expectedDataNotFound =[];
-        foreach($this->getColsRequired() as $key) {
-            if (! array_key_exists($key, $this->data[0])) {
-                $expectedDataNotFound[] = $key;
-            }
+    public function verifyColumnsRequired() {
+        
+        if (! is_array($this->colsRequired)) {
+            throw new \Exception('colsRequired is not array', 1004);
+            return;
         }
         
+        if (count($this->colsRequired)<= 0 ){
+            throw new \Exception('colsRequired is empty', 1005);
+            return;
+        }
+        
+       $expectedDataNotFound=[];
+        foreach ($this->getColsRequired() as $col) {
+//             var_dump($col);
+            foreach ($this->data as $data) {
+                if (empty($data[$col])) {
+                    $expectedDataNotFound[]=$col ;
+                    $this->isOk = false;
+                }//end if
+            }//end foreach
+        }//end foreach
+
         if (count($expectedDataNotFound) > 0 ) {
             $this->setIsOk(false);
             $this->setExpectedDataNotFound($expectedDataNotFound);
-            $this->setLog("Expected data in columns not found: \n".implode('\n', $expectedDataNotFound));
+            $this->setLog("Empty data in: \n".implode('\n', $expectedDataNotFound));
         }
     }
     
     public function verify()
     {
         if (! is_array($this->data)) {
-            throw new \Exception('data is not array');
+            throw new \Exception('data is not array', 1000);
             return;
         }
         
         if (count($this->data)<= 0 ){
-            throw new \Exception('data is empty');
-            return;
-        }
-        
-        if (! is_array($this->head)) {
-            throw new \Exception('head is not array');
-            return;
-        }
-        
-        if (count($this->head)<= 0 ){
-            throw new \Exception('head is empty');
-            return;
-        }
-        
-        if (! is_array($this->colsRequired)) {
-            throw new \Exception('colsRequired is not array');
-            return;
-        }
-        
-        if (count($this->colsRequired)<= 0 ){
-            throw new \Exception('colsRequired is empty');
+            throw new \Exception('data is empty', 1001);
             return;
         }
        
