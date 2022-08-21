@@ -1,1 +1,1 @@
-{"version":1,"defects":{"Warning":6,"ValidationTest::testValidationColum":4,"ValidationTest::testValidationColumn":3},"times":{"Warning":0.005,"ValidationTest::testValidationColum":0.005,"ValidationTest::testValidationColumn":0.006}}
+{"version":1,"defects":{"Warning":6,"ValidationTest::testValidationColum":4,"ValidationTest::testValidationColumn":4},"times":{"Warning":0.005,"ValidationTest::testValidationColum":0.005,"ValidationTest::testValidationColumn":0.006}}

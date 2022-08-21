@@ -8,7 +8,7 @@
 	"license" : "AGPL-3.0-or-later",
 	"autoload" : {
 		"psr-4" : {
-			"Andre\\DataValidation\\" : "src/"
+			"DataValidation\\" : "src/DataValidation"
 		}
 	},
 	"authors" : [{
