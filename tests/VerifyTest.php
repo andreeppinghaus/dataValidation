@@ -50,9 +50,13 @@ class VerifyTest extends TestCase
         parent::tearDown();
     }
     
-   
+   /**
+    * @
+    */
     public function testVerifyHead() {
-      
+        $this->markTestSkipped(
+            'tests ok'
+            );
         //its ok
         try {
             $this->validation->setData($this->dataset);
@@ -74,7 +78,7 @@ class VerifyTest extends TestCase
             var_dump($e->getCode());
         }
         
-        echo $this->validation->getLog();
+//         echo $this->validation->getLog();
         
         $this->AssertEquals(false, $this->validation->getisOk());
         
@@ -82,6 +86,9 @@ class VerifyTest extends TestCase
     }
     
     public function testVerifyEmptyCols() {
+        $this->markTestSkipped(
+            'tests ok'
+            );
         // its ok  not empty
         try {
             $this->validation->setData($this->dataset);
@@ -92,7 +99,7 @@ class VerifyTest extends TestCase
             var_dump($e->getCode());
         }
         
-        echo $this->validation->getLog();
+//         echo $this->validation->getLog();
         
         $this->AssertEquals(true, $this->validation->getisOk());
         
@@ -113,6 +120,9 @@ class VerifyTest extends TestCase
     }
     
     public function testVerify() {
+        $this->markTestSkipped(
+            'tests ok'
+            );
         // its ok  not empty
         try {
             $this->validation->setData($this->dataset);

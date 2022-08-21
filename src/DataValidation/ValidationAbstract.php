@@ -9,10 +9,15 @@ namespace DataValidation;
  */
 class ValidationAbstract implements ValidationInterface
 {
-
-//     public function __construct() {
-//         $this->setIsOk(true);
-//     }
+    /**
+     * Types of test 
+     * @var 
+     */
+    const TEST_GEOMETRIC_LATITUDE=1;
+    const TEST_GEOMETRIC_LONGITUDE=2;
+    const TEST_TEXT=1;
+    const TEST_VALUES_DEFINED=3;
+    
     /**
      * Required Columns 
      * @var array
@@ -217,7 +222,7 @@ class ValidationAbstract implements ValidationInterface
         }
         
        $expectedDataNotFound=[];
-        foreach ($this->getColsRequired() as $col) {
+       foreach ($this->getColsRequired() as $col) {
 //             var_dump($col);
             foreach ($this->data as $data) {
                 if (empty($data[$col])) {
@@ -253,9 +258,102 @@ class ValidationAbstract implements ValidationInterface
         return $this->getIsOk();
     }
 
-    public function validate()
+    public function validate($column,$type, $valuesExpected=[])
     {
-        echo "validando";
+        //addslashes
+        
+        
+        if ($type == self::TEST_GEOMETRIC_LATITUDE) {
+            $count=0;            
+            foreach ($this->data as $data) {
+                
+                if (! is_numeric($data[$column])) {
+                    $this->isOk = false;
+                    $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
+                }else if ($data[$column]< -90 or $data[$column] > 90 ){
+                    $expectedDataNotFound[]=$data[$column].'out of valid range' ;
+                }
+            }//end foreach
+            
+            if (count($expectedDataNotFound) > 0 ) {
+                $this->setIsOk(false);
+                $this->setExpectedDataNotFound($expectedDataNotFound);
+                $this->setLog("Latitude error in: \n".implode('\n', $expectedDataNotFound));
+            }
+            
+        }else if ($type == self::TEST_GEOMETRIC_LONGITUDE) {
+            $count=0;
+            foreach ($this->data as $data) {
+                
+                if (! is_numeric($data[$column])) {
+                    $this->isOk = false;
+                    $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
+                }else if ($data[$column]< -180 or $data[$column] > 180 ){
+                    $expectedDataNotFound[]=$data[$column].'out of valid range' ;
+                }
+            }//end foreach
+            
+            if (count($expectedDataNotFound) > 0 ) {
+                $this->setIsOk(false);
+                $this->setExpectedDataNotFound($expectedDataNotFound);
+                $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound));
+            }
+            
+        }else if ($type == self::TEST_TEXT) {
+            //errado
+            $count=0;
+            foreach ($this->data as $data) {
+                
+                if ( is_numeric($data[$column])) {
+                    $this->isOk = false;
+                    $expectedDataNotFound[]=$data[$column].'is numeric' ;
+                }else if ($data[$column]< -180 or $data[$column] > 180 ){
+                    $expectedDataNotFound[]=$data[$column].'out of valid range' ;
+                }
+            }//end foreach
+            
+            if (count($expectedDataNotFound) > 0 ) {
+                $this->setIsOk(false);
+                $this->setExpectedDataNotFound($expectedDataNotFound);
+                $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound));
+            }
+        }else if ($type == self::TEST_VALUES_DEFINED) {
+            $count=0;
+            
+            if (count($valuesExpected)<=0 ) {
+                throw new \Exception('valuesExpected is empty', 1005);
+                return;
+            }
+            $expectedDataNotFound=[];
+            
+            foreach ($this->data as $data) {
+                if ( ! in_array($data[$column], $valuesExpected ) ) {
+                    $expectedDataNotFound[]=$data[$column] ;
+                }
+            }//end foreach
+            
+            if (count($expectedDataNotFound) > 0 ) {
+                $this->setIsOk(false);
+                $this->setExpectedDataNotFound($expectedDataNotFound);
+                $this->setLog("Field not found in: \n".implode('\n', $expectedDataNotFound));
+            }
+        }
+
+    }
+    
+    /**
+     * from: https://www.php.net/manual/pt_BR/function.addslashes.php
+     * @author: Adrian C
+     * @param string $str
+     * @return string
+     */
+    function checkaddslashes($str){
+        if(strpos(str_replace("\'",""," $str"),"'")!=false) {
+            return addslashes($str);
+        } else {
+            return $str;
+        }
+        
     }
 }
 

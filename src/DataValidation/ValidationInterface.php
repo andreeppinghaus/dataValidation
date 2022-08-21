@@ -20,6 +20,6 @@ interface ValidationInterface
      * Remove malicious code and verify 
      * that it conforms to the data dictionary
      */
-    public function validate();
+//     public function validate();
 }
 
