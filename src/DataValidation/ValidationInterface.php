@@ -3,6 +3,8 @@ namespace DataValidation;
 
 /**
  * Validation Interface
+ * Define roles for superior class
+ * not dependency
  * @author andre
  *
  */

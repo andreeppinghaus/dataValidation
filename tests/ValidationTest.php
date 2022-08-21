@@ -39,8 +39,21 @@ class ValidationTest extends TestCase
         parent::tearDown();
     }
     
-    public function testValidationColumn() {
-       $this->AssertEquals(123, 123);
+    public function additionProvider()
+    {
+        $data = ['col1', 'col2', 'col3'];
+        
+        return [
+            [$data, 0, 0],
+        ];
+    }
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testValidationColumn($data, $a1, $a2) {
+      
+        print($data);
+        $this->AssertEquals(123, 123);
     }
     
     
