@@ -111,22 +111,7 @@ class ValidateTest extends TestCase
         echo $this->validation->getLog();
         $this->AssertEquals(false, $this->validation->getisOk());
         
-    }
-    
-    public function testValidateText() {        
-        //its ok
-        try {
-            $this->validation->setData($this->dataset);
-            $this->validation->setHead(['latitude','textos','somente.valores.definidos', 'somente.valores.definidos.2']);
-            $this->validation->validate('textos', $this->validation::CLEAN_TEXT);
-        }catch(Exception $e) {
-            var_dump($e->getCode());
-        }
-        echo $this->validation->getLog();
-        $this->AssertEquals(false, $this->validation->getisOk());
-        
-    }
-    
+    }   
     
     
 }
