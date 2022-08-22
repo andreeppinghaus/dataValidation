@@ -15,8 +15,8 @@ class ValidationAbstract implements ValidationInterface
      */
     const TEST_GEOMETRIC_LATITUDE=1;
     const TEST_GEOMETRIC_LONGITUDE=2;
-    const CLEAN_TEXT=3;
-    const TEST_VALUES_DEFINED=4;
+//     const CLEAN_TEXT=3;
+    const TEST_VALUES_DEFINED=3;
     
     /**
      * Required Columns 
@@ -298,13 +298,6 @@ class ValidationAbstract implements ValidationInterface
                 $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound));
             }
             
-        }else if ($type == self::CLEAN_TEXT) {
-            //errado
-            $count=0;
-            foreach ($this->data as $data) {
-                $data[$column] = addslashes($data[$column]);
-                $data[$column] = $this->rip_tags($data[$column]);
-            }//end foreach
         }else if ($type == self::TEST_VALUES_DEFINED) {
             $count=0;
             
@@ -327,43 +320,6 @@ class ValidationAbstract implements ValidationInterface
             }
         }
 
-    }
-    
-    /**
-     * from: https://www.php.net/manual/pt_BR/function.addslashes.php
-     * @author: Adrian C
-     * @param string $str
-     * @return string
-     */
-    function checkaddslashes($str){
-        if(strpos(str_replace("\'",""," $str"),"'")!=false) {
-            return addslashes($str);
-        } else {
-            return $str;
-        }
-        
-    }
-    /**
-     * from: https://www.php.net/manual/pt_BR/function.strip-tags.php
-     * @author: bzplan at web dot de  
-     * @param string $str
-     * @return string
-     */
-    function rip_tags($string) {
-        
-        // ----- remove HTML TAGs -----
-        $string = preg_replace ('/<[^>]*>/', ' ', $string);
-        
-        // ----- remove control characters -----
-        $string = str_replace("\r", '', $string);    // --- replace with empty space
-        $string = str_replace("\n", ' ', $string);   // --- replace with space
-        $string = str_replace("\t", ' ', $string);   // --- replace with space
-        
-        // ----- remove multiple spaces -----
-        $string = trim(preg_replace('/ {2,}/', ' ', $string));
-        
-        return $string;
-        
     }
 }
 
