@@ -268,7 +268,7 @@ class ValidationAbstract implements ValidationInterface
                 
                 if (! is_numeric($data[$column])) {
                     $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
+                    $expectedDataNotFound[]=$data[$column].'is not numeric' ;
                 }else if ($data[$column]< -90 or $data[$column] > 90 ){
                     $expectedDataNotFound[]=$data[$column].'out of valid range' ;
                 }
@@ -308,7 +308,7 @@ class ValidationAbstract implements ValidationInterface
             $expectedDataNotFound=[];
             
             foreach ($this->data as $data) {
-                if ( ! in_array($data[$column], $valuesExpected ) ) {
+                if ( ! in_array(strtolower($data[$column]), $valuesExpected ) ) {
                     $expectedDataNotFound[]=$data[$column] ;
                 }
             }//end foreach
