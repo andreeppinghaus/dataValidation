@@ -15,8 +15,8 @@ class ValidationAbstract implements ValidationInterface
      */
     const TEST_GEOMETRIC_LATITUDE=1;
     const TEST_GEOMETRIC_LONGITUDE=2;
-    const TEST_TEXT=1;
-    const TEST_VALUES_DEFINED=3;
+    const CLEAN_TEXT=3;
+    const TEST_VALUES_DEFINED=4;
     
     /**
      * Required Columns 
@@ -262,7 +262,6 @@ class ValidationAbstract implements ValidationInterface
     {
         //addslashes
         
-        
         if ($type == self::TEST_GEOMETRIC_LATITUDE) {
             $count=0;            
             foreach ($this->data as $data) {
@@ -299,24 +298,13 @@ class ValidationAbstract implements ValidationInterface
                 $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound));
             }
             
-        }else if ($type == self::TEST_TEXT) {
+        }else if ($type == self::CLEAN_TEXT) {
             //errado
             $count=0;
             foreach ($this->data as $data) {
-                
-                if ( is_numeric($data[$column])) {
-                    $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'is numeric' ;
-                }else if ($data[$column]< -180 or $data[$column] > 180 ){
-                    $expectedDataNotFound[]=$data[$column].'out of valid range' ;
-                }
+                $data[$column] = addslashes($data[$column]);
+                $data[$column] = $this->rip_tags($data[$column]);
             }//end foreach
-            
-            if (count($expectedDataNotFound) > 0 ) {
-                $this->setIsOk(false);
-                $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound));
-            }
         }else if ($type == self::TEST_VALUES_DEFINED) {
             $count=0;
             
@@ -353,6 +341,28 @@ class ValidationAbstract implements ValidationInterface
         } else {
             return $str;
         }
+        
+    }
+    /**
+     * from: https://www.php.net/manual/pt_BR/function.strip-tags.php
+     * @author: bzplan at web dot de  
+     * @param string $str
+     * @return string
+     */
+    function rip_tags($string) {
+        
+        // ----- remove HTML TAGs -----
+        $string = preg_replace ('/<[^>]*>/', ' ', $string);
+        
+        // ----- remove control characters -----
+        $string = str_replace("\r", '', $string);    // --- replace with empty space
+        $string = str_replace("\n", ' ', $string);   // --- replace with space
+        $string = str_replace("\t", ' ', $string);   // --- replace with space
+        
+        // ----- remove multiple spaces -----
+        $string = trim(preg_replace('/ {2,}/', ' ', $string));
+        
+        return $string;
         
     }
 }
