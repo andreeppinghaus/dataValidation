@@ -5,6 +5,10 @@ Classes para uso pessoal de validação de dados
 
 composer require andreeppinghaus/data-validation:dev-main
 
+### Atualização do pacote ###
+
+composer update andreeppinghaus/validation-data:dev-main
+
 ### Testes ####
 Remova as linhas com o marcador para pular os testes.
 
