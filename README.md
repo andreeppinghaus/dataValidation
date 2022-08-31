@@ -5,6 +5,20 @@ Classes para uso pessoal de validação de dados
 
 composer require andreeppinghaus/data-validation:dev-main
 
+### Testes ####
+Remova as linhas com o marcador para pular os testes.
+
+Exemplo:
+```
+$this->markTestSkipped(
+            'tests ok'
+            );
+```
+
+Depois rode:
+           
+composer test
+
 ### Exemplo ###
 
 ```
