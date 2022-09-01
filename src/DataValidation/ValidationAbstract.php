@@ -265,7 +265,7 @@ class ValidationAbstract implements ValidationInterface
     public function validate($column,$type, $valuesExpected=[])
     {
         //addslashes
-        
+        $expectedDataNotFound =[];
         if ($type == self::TEST_GEOMETRIC_LATITUDE) {
             $errorRow=[];       
             $count=0;
