@@ -323,9 +323,13 @@ class ValidationAbstract implements ValidationInterface
             $expectedDataNotFound=[];
             
             foreach ($this->data as $data) {
-                if ( ! in_array(strtolower($data[$column]), $valuesExpected ) ) {
-                    $expectedDataNotFound[]=$data[$column] ;
-                    $errorRow[]=$count;
+                if (isset($data[$column])) {
+                    if ( ! in_array(strtolower($data[$column]), $valuesExpected ) ) {
+                        $expectedDataNotFound[]=$column ;
+                        $errorRow[]=$count;
+                    }
+                }else {
+                    $expectedDataNotFound[] = $column;
                 }
                 $count++;
             }//end foreach
