@@ -287,7 +287,7 @@ class ValidationAbstract implements ValidationInterface
                     }
                 }else {
                     $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'not exist' ;
+                    $expectedDataNotFound[]="column $column not exist";
                     $errorRow[]=$count;
                 }
                 
@@ -317,7 +317,7 @@ class ValidationAbstract implements ValidationInterface
                     }
                 }else {
                     $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'not exist' ;
+                    $expectedDataNotFound[]="column $column not exist" ;
                     $errorRow[]=$count;
                 }
                 
@@ -349,7 +349,7 @@ class ValidationAbstract implements ValidationInterface
                         $errorRow[]=$count;
                     }
                 }else {
-                    $expectedDataNotFound[] = $column;
+                    $expectedDataNotFound[] = "column $column not exist";
                 }
                 $count++;
             }//end foreach
