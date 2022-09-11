@@ -1,5 +1,6 @@
 {
 	"name" : "andreeppinghaus/data-validation",
+	"version": "1.0.0",
 	"description" : "Data validation for import",
 	"type" : "library",
 	"require" : {
