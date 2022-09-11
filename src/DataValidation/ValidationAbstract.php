@@ -299,15 +299,22 @@ class ValidationAbstract implements ValidationInterface
             $count=0;
             $errorRow=[];
             foreach ($this->data as $data) {
-                
-                if (! is_numeric($data[$column])) {
+                if (!isset($data[$column])) {
+                    
                     $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
+                    $expectedDataNotFound[]=$data[$column].'not exist' ;
                     $errorRow[]=$count;
-                }else if ($data[$column]< -180 or $data[$column] > 180 ){
-                    $expectedDataNotFound[]=$data[$column].'out of valid range' ;
-                    $errorRow[]=$count;
+                    
+                    if (! is_numeric($data[$column])) {
+                        $this->isOk = false;
+                        $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
+                        $errorRow[]=$count;
+                    }else if ($data[$column]< -180 or $data[$column] > 180 ){
+                        $expectedDataNotFound[]=$data[$column].'out of valid range' ;
+                        $errorRow[]=$count;
+                    }
                 }
+                
                 $count++;
             }//end foreach
             
