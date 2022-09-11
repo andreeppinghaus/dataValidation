@@ -1,7 +1,6 @@
 {
 	"name" : "andreeppinghaus/data-validation",
 	"description" : "Data validation for import",
-	"version": "1.0.2",
 	"type" : "library",
 	"require" : {
 		"phpunit/phpunit" : "^9.5"
