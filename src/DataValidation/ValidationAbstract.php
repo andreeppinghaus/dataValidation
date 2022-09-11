@@ -299,7 +299,7 @@ class ValidationAbstract implements ValidationInterface
             $count=0;
             $errorRow=[];
             foreach ($this->data as $data) {
-                if (!isset($data[$column])) {
+                if (isset($data[$column])) {
                     
                     $this->isOk = false;
                     $expectedDataNotFound[]=$data[$column].'not exist' ;
