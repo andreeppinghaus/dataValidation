@@ -249,11 +249,13 @@ class ValidationAbstract implements ValidationInterface
     {
         if (! is_array($this->data)) {
             throw new \Exception('data is not array', 1000);
+	    $this->setLog("data is not array");
             return;
         }
         
         if (count($this->data)<= 0 ){
             throw new \Exception('data is empty', 1001);
+	    $this->setLog("data is empty");
             return;
         }
        
