@@ -189,11 +189,13 @@ class ValidationAbstract implements ValidationInterface
         
         if (! is_array($this->head)) {
             throw new \Exception('head is not array', 1002);
+            $this->setLog("head is not array");
             return;
         }
         
         if (count($this->head)<= 0 ){
             throw new \Exception('head is empty', 1003);
+            $this->setLog("head is empty");
             return;
         }
         
