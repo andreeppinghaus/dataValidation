@@ -219,11 +219,13 @@ class ValidationAbstract implements ValidationInterface
         
         if (! is_array($this->colsRequired)) {
             throw new \Exception('colsRequired is not array', 1004);
+            $this->setLog("colsRequired is not array");
             return;
         }
         
         if (count($this->colsRequired)<= 0 ){
             throw new \Exception('colsRequired is empty', 1005);
+            $this->setLog("colsRequired is empty");
             return;
         }
         
@@ -249,13 +251,13 @@ class ValidationAbstract implements ValidationInterface
     {
         if (! is_array($this->data)) {
             throw new \Exception('data is not array', 1000);
-	    $this->setLog("data is not array");
+	        $this->setLog("data is not array");
             return;
         }
         
         if (count($this->data)<= 0 ){
             throw new \Exception('data is empty', 1001);
-	    $this->setLog("data is empty");
+	        $this->setLog("data is empty");
             return;
         }
        
@@ -322,6 +324,7 @@ class ValidationAbstract implements ValidationInterface
             
             if (count($valuesExpected)<=0 ) {
                 throw new \Exception('valuesExpected is empty', 1005);
+                $this->setLog("valuesExpected is empty");
                 return;
             }
             $expectedDataNotFound=[];
