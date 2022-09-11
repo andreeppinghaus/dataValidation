@@ -276,15 +276,21 @@ class ValidationAbstract implements ValidationInterface
             $errorRow=[];       
             $count=0;
             foreach ($this->data as $data) {
-                
-                if (! is_numeric($data[$column])) {
+                if (isset($data[$column])) {
+                    if (! is_numeric($data[$column])) {
+                        $this->isOk = false;
+                        $expectedDataNotFound[]=$data[$column].'is not numeric' ;
+                        $errorRow[]=$count;
+                    }else if ($data[$column]< -90 or $data[$column] > 90 ){
+                        $expectedDataNotFound[]=$data[$column].'out of valid range' ;
+                        $errorRow[]=$count;
+                    }
+                }else {
                     $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'is not numeric' ;
-                    $errorRow[]=$count;
-                }else if ($data[$column]< -90 or $data[$column] > 90 ){
-                    $expectedDataNotFound[]=$data[$column].'out of valid range' ;
+                    $expectedDataNotFound[]=$data[$column].'not exist' ;
                     $errorRow[]=$count;
                 }
+                
                 $count++;
             }//end foreach
             
@@ -301,10 +307,6 @@ class ValidationAbstract implements ValidationInterface
             foreach ($this->data as $data) {
                 if (isset($data[$column])) {
                     
-                    $this->isOk = false;
-                    $expectedDataNotFound[]=$data[$column].'not exist' ;
-                    $errorRow[]=$count;
-                    
                     if (! is_numeric($data[$column])) {
                         $this->isOk = false;
                         $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
@@ -313,6 +315,10 @@ class ValidationAbstract implements ValidationInterface
                         $expectedDataNotFound[]=$data[$column].'out of valid range' ;
                         $errorRow[]=$count;
                     }
+                }else {
+                    $this->isOk = false;
+                    $expectedDataNotFound[]=$data[$column].'not exist' ;
+                    $errorRow[]=$count;
                 }
                 
                 $count++;
