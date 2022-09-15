@@ -230,13 +230,15 @@ class ValidationAbstract implements ValidationInterface
         }
         
        $expectedDataNotFound=[];
+       $errorLine=0;
        foreach ($this->getColsRequired() as $col) {
 //             var_dump($col);
             foreach ($this->data as $data) {
                 if (empty($data[$col])) {
-                    $expectedDataNotFound[]=$col ;
+                    $expectedDataNotFound[]=$col. "in line: $errorLine" ;
                     $this->isOk = false;
                 }//end if
+                $errorLine++;
             }//end foreach
         }//end foreach
 
@@ -273,22 +275,18 @@ class ValidationAbstract implements ValidationInterface
         //addslashes
         $expectedDataNotFound =[];
         if ($type == self::TEST_GEOMETRIC_LATITUDE) {
-            $errorRow=[];       
             $count=0;
             foreach ($this->data as $data) {
                 if (isset($data[$column])) {
                     if (! is_numeric($data[$column])) {
                         $this->isOk = false;
-                        $expectedDataNotFound[]=$data[$column].'is not numeric' ;
-                        $errorRow[]=$count;
+                        $expectedDataNotFound[]=$data[$column]." is not numeric in line: $count" ;
                     }else if ($data[$column]< -90 or $data[$column] > 90 ){
-                        $expectedDataNotFound[]=$data[$column].'out of valid range' ;
-                        $errorRow[]=$count;
+                        $expectedDataNotFound[]=$data[$column]." out of valid range in line: $count" ;
                     }
                 }else {
                     $this->isOk = false;
-                    $expectedDataNotFound[]="column $column not exist";
-                    $errorRow[]=$count;
+                    $expectedDataNotFound[]=" column $column not exist  in line: $count";
                 }
                 
                 $count++;
@@ -297,28 +295,23 @@ class ValidationAbstract implements ValidationInterface
             if (count($expectedDataNotFound) > 0 ) {
                 $this->setIsOk(false);
                 $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Latitude error in: \n".implode('\n', $expectedDataNotFound).
-                    '\n in lines:\n'.implode('\n', $errorRow));
+                $this->setLog("Latitude error in: \n".implode('\n', $expectedDataNotFound));
             }
             
         }else if ($type == self::TEST_GEOMETRIC_LONGITUDE) {
             $count=0;
-            $errorRow=[];
             foreach ($this->data as $data) {
                 if (isset($data[$column])) {
                     
                     if (! is_numeric($data[$column])) {
                         $this->isOk = false;
-                        $expectedDataNotFound[]=$data[$column].'is not  numeric' ;
-                        $errorRow[]=$count;
+                        $expectedDataNotFound[]=$data[$column]." is not numeric in line: $count" ;
                     }else if ($data[$column]< -180 or $data[$column] > 180 ){
-                        $expectedDataNotFound[]=$data[$column].'out of valid range' ;
-                        $errorRow[]=$count;
+                        $expectedDataNotFound[]=$data[$column]." out of valid range in line: $count" ;
                     }
                 }else {
                     $this->isOk = false;
-                    $expectedDataNotFound[]="column $column not exist" ;
-                    $errorRow[]=$count;
+                    $expectedDataNotFound[]=" column $column not exist  in line: $count" ;
                 }
                 
                 $count++;
@@ -327,13 +320,11 @@ class ValidationAbstract implements ValidationInterface
             if (count($expectedDataNotFound) > 0 ) {
                 $this->setIsOk(false);
                 $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound).
-                    '\n in lines:\n'.implode('\n', $errorRow));
+                $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound) );
             }
             
         }else if ($type == self::TEST_VALUES_DEFINED) {
             $count=0;
-            $errorRow=[];
             
             if (count($valuesExpected)<=0 ) {
                 throw new \Exception('valuesExpected is empty', 1005);
@@ -346,19 +337,16 @@ class ValidationAbstract implements ValidationInterface
                 if (isset($data[$column])) {
                     if ( ! in_array(strtolower($data[$column]), $valuesExpected ) ) {
                         $expectedDataNotFound[]=$column ;
-                        $errorRow[]=$count;
                     }
                 }else {
-                    $expectedDataNotFound[] = "column $column not exist";
+                    $expectedDataNotFound[] = "column $column not exist ";
                 }
-                $count++;
             }//end foreach
             
             if (count($expectedDataNotFound) > 0 ) {
                 $this->setIsOk(false);
                 $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Field not found in: \n".implode('\n', $expectedDataNotFound).
-                    '\n in lines:\n'.implode('\n', $errorRow));
+                $this->setLog("Field not found in: \n".implode('\n', $expectedDataNotFound));
             }
         }
 
