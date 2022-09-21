@@ -194,7 +194,7 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->head = $head;
     }
-    
+     
     /**
      * Verify name of columns that must exist
      */
