@@ -43,15 +43,22 @@ class ValidationAbstract implements ValidationInterface
     
     /**
      * All verified ist's ok
+     * @var bool
      */
     private $isOk = true;
     
     /**
      * array with data from source like csv file
+     * @var array
      */
     
-    private $data;
+    private $data=[];
     
+    /**
+     * string for new line
+     * @var string
+     */
+    private $newline;
     
     /**
      * Error log
@@ -69,6 +76,13 @@ class ValidationAbstract implements ValidationInterface
      *  Methods
      */
     
+    function __construct($newline=null) {
+        if (empty($newline)) {
+            $this->newline = "\r\n";
+        }else{
+            $this->newline = $newline;
+        }
+    }
     /**
      * @return string
      */
@@ -82,7 +96,7 @@ class ValidationAbstract implements ValidationInterface
      */
     public function setLog($log)
     {
-        $this->log .= "\n".$log;
+        $this->log .= $this->newline.$log;
     }
     
     /**
@@ -180,7 +194,6 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->head = $head;
     }
-    
     
     /**
      * Verify name of columns that must exist
