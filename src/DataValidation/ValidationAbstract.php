@@ -357,7 +357,7 @@ class ValidationAbstract implements ValidationInterface
             }//end foreach
             
             if (count($expectedDataNotFound) > 0 ) {
-                $this->setIsOk(false);
+                $this->setIsOk(false); 
                 $this->setExpectedDataNotFound($expectedDataNotFound);
                 $this->setLog("Column not found in: ".$this->newline.implode($this->newline, $expectedDataNotFound));
             }
