@@ -2,7 +2,7 @@
 namespace DataValidation;
 
 /**
- * Class with real code respecting 
+ * Class with real code respecting
  * interface class rules
  * @author andre
  *
@@ -10,16 +10,16 @@ namespace DataValidation;
 class ValidationAbstract implements ValidationInterface
 {
     /**
-     * Types of test 
-     * @var 
+     * Types of test
+     * @var
      */
     const TEST_GEOMETRIC_LATITUDE=1;
     const TEST_GEOMETRIC_LONGITUDE=2;
-//     const CLEAN_TEXT=3;
+    //     const CLEAN_TEXT=3;
     const TEST_VALUES_DEFINED=3;
     
     /**
-     * Required Columns 
+     * Required Columns
      * @var array
      */
     private $colsRequired=[];
@@ -106,7 +106,7 @@ class ValidationAbstract implements ValidationInterface
     {
         return $this->headNotFound;
     }
-
+    
     /**
      * @param multitype: $headNotFound
      */
@@ -122,7 +122,7 @@ class ValidationAbstract implements ValidationInterface
     {
         return $this->colsRequired;
     }
-
+    
     /**
      * @return array
      */
@@ -130,7 +130,7 @@ class ValidationAbstract implements ValidationInterface
     {
         return $this->expectedDataNotFound;
     }
-
+    
     /**
      * @return boolean
      */
@@ -138,7 +138,7 @@ class ValidationAbstract implements ValidationInterface
     {
         return $this->isOk;
     }
-
+    
     /**
      * @return mixed
      */
@@ -146,7 +146,7 @@ class ValidationAbstract implements ValidationInterface
     {
         return $this->data;
     }
-
+    
     /**
      * @return multitype:
      */
@@ -154,7 +154,7 @@ class ValidationAbstract implements ValidationInterface
     {
         return $this->head;
     }
-
+    
     /**
      * @param array $colsRequired
      */
@@ -162,7 +162,7 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->colsRequired = $colsRequired;
     }
-
+    
     /**
      * @param array $expectedDataNotFound
      */
@@ -170,7 +170,7 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->expectedDataNotFound = $expectedDataNotFound;
     }
-
+    
     /**
      * @param boolean $isOk
      */
@@ -178,7 +178,7 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->isOk = $isOk;
     }
-
+    
     /**
      * @param mixed $data
      */
@@ -186,7 +186,7 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->data = $data;
     }
-
+    
     /**
      * @param multitype: $head
      */
@@ -194,7 +194,7 @@ class ValidationAbstract implements ValidationInterface
     {
         $this->head = $head;
     }
-     
+    
     /**
      * Verify name of columns that must exist
      */
@@ -224,7 +224,7 @@ class ValidationAbstract implements ValidationInterface
             $this->setIsOk(false);
             $this->setHeadNotFound($headsNotFound);
             $errors = implode(', ', $headsNotFound);
-            $this->setLog("Columns not found: \n $errors");
+            $this->setLog("Columns not found:". $this->newline." $errors");
         }
     }
     
@@ -242,23 +242,23 @@ class ValidationAbstract implements ValidationInterface
             return;
         }
         
-       $expectedDataNotFound=[];
-       $errorLine=0;
-       foreach ($this->getColsRequired() as $col) {
-//             var_dump($col);
+        $expectedDataNotFound=[];
+        $errorLine=0;
+        foreach ($this->getColsRequired() as $col) {
+            //             var_dump($col);
             foreach ($this->data as $data) {
                 if (empty($data[$col])) {
-                    $expectedDataNotFound[]=$col. "in line: $errorLine" ;
+                    $expectedDataNotFound[]=$col. " in line: $errorLine" ;
                     $this->isOk = false;
                 }//end if
                 $errorLine++;
             }//end foreach
         }//end foreach
-
+        
         if (count($expectedDataNotFound) > 0 ) {
             $this->setIsOk(false);
             $this->setExpectedDataNotFound($expectedDataNotFound);
-            $this->setLog("Empty data in: \n".implode('\n', $expectedDataNotFound));
+            $this->setLog("Empty data in: ". $this->newline.implode($this->newline, $expectedDataNotFound));
         }
     }
     
@@ -266,23 +266,23 @@ class ValidationAbstract implements ValidationInterface
     {
         if (! is_array($this->data)) {
             throw new \Exception('data is not array', 1000);
-	        $this->setLog("data is not array");
+            $this->setLog("data is not array");
             return;
         }
         
         if (count($this->data)<= 0 ){
             throw new \Exception('data is empty', 1001);
-	        $this->setLog("data is empty");
+            $this->setLog("data is empty");
             return;
         }
-       
+        
         $this->verifyHead();
         
         $this->verifyColumnsRequired();
         
         return $this->getIsOk();
     }
-
+    
     public function validate($column,$type, $valuesExpected=[])
     {
         //addslashes
@@ -308,7 +308,7 @@ class ValidationAbstract implements ValidationInterface
             if (count($expectedDataNotFound) > 0 ) {
                 $this->setIsOk(false);
                 $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Latitude error in: \n".implode('\n', $expectedDataNotFound));
+                $this->setLog("Latitude error in: ".$this->newline.implode($this->newline, $expectedDataNotFound));
             }
             
         }else if ($type == self::TEST_GEOMETRIC_LONGITUDE) {
@@ -333,7 +333,7 @@ class ValidationAbstract implements ValidationInterface
             if (count($expectedDataNotFound) > 0 ) {
                 $this->setIsOk(false);
                 $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Longitude error in: \n".implode('\n', $expectedDataNotFound) );
+                $this->setLog("Longitude error in: ".$this->newline.implode($this->newline, $expectedDataNotFound) );
             }
             
         }else if ($type == self::TEST_VALUES_DEFINED) {
@@ -359,10 +359,9 @@ class ValidationAbstract implements ValidationInterface
             if (count($expectedDataNotFound) > 0 ) {
                 $this->setIsOk(false);
                 $this->setExpectedDataNotFound($expectedDataNotFound);
-                $this->setLog("Field not found in: \n".implode('\n', $expectedDataNotFound));
+                $this->setLog("Column not found in: ".$this->newline.implode($this->newline, $expectedDataNotFound));
             }
         }
-
+        
     }
 }
-
